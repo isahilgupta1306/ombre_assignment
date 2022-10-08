@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ombre_assignment/providers/firebase_operations.dart';
 import 'package:ombre_assignment/providers/google_signin.dart';
 import 'package:ombre_assignment/screens/home.dart';
-import 'package:ombre_assignment/utils/themes/named_colors.dart';
 import 'package:ombre_assignment/utils/themes/pallette.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,7 +35,6 @@ class MyApp extends StatelessWidget {
         title: 'Stream App',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            // scaffoldBackgroundColor: NamedColors.bgColorDark,
             textTheme:
                 GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
             primarySwatch: Palette.brandColor),

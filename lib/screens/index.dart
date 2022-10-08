@@ -1,9 +1,6 @@
+// ignore_for_file: use_build_context_synchronously
 import 'dart:developer';
-import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:iris_event/iris_event.dart';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -50,21 +47,13 @@ class _IndexPageState extends State<IndexPage> {
   Widget build(BuildContext context) {
     var deviceSize = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: NamedColors.dimWhite,
+      backgroundColor: NamedColors.bgColorDark,
       appBar: AppBar(
-        title: const Text("Ombre Assignment"),
-        actions: [
-          IconButton(
-              onPressed: () {
-                final provider =
-                    Provider.of<GoogleSignInProvider>(context, listen: false);
-                provider.logout();
-              },
-              icon: const Icon(
-                Icons.exit_to_app_outlined,
-                color: NamedColors.white,
-              ))
-        ],
+        backgroundColor: Colors.transparent,
+        title: const Text(
+          "Ombre Assignment",
+        ),
+        elevation: 0,
         centerTitle: true,
       ),
       body: SafeArea(
@@ -119,6 +108,34 @@ class _IndexPageState extends State<IndexPage> {
                           const SizedBox(
                             height: 20,
                           ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 2,
+                                width: deviceSize.width * 0.35,
+                                decoration: BoxDecoration(
+                                    color: NamedColors.shinyPurple
+                                        .withOpacity(0.45)),
+                              ),
+                              Text(
+                                " O R ",
+                                style: AppTextStyles.heading.copyWith(
+                                    color: NamedColors.shinyPurple
+                                        .withOpacity(0.8)),
+                              ),
+                              Container(
+                                height: 2,
+                                width: deviceSize.width * 0.35,
+                                decoration: BoxDecoration(
+                                    color: NamedColors.shinyPurple
+                                        .withOpacity(0.45)),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
                           SolidButton(
                               onPressed: () {
                                 showModalBottomSheet(
@@ -134,60 +151,32 @@ class _IndexPageState extends State<IndexPage> {
                                   },
                                 );
                               },
-                              label: "BroadCast your Channel",
+                              label: "Go LIVE",
                               deviceSize: deviceSize,
                               labelTextStyle:
                                   AppTextStyles.solidButttonTextStyle,
                               icon: Icons.broadcast_on_home),
-                          ElevatedButton(
-                              onPressed: () {
-                                final provider =
-                                    Provider.of<GoogleSignInProvider>(context,
-                                        listen: false);
-                                provider.logout();
-                              },
-                              child: const Text("LOGOUT")),
                         ],
                       );
                     },
-                  )
-                  // Column(
-                  //   children: [
-                  //     // TextField(
-                  //     //   controller: _channelController,
-                  //     //   decoration: InputDecoration(
-                  //     //       hintText: "Channel Name",
-                  //     //       errorText:
-                  //     //           _validateError ? "Channel name is mandatory" : null),
-                  //     // ),
-                  //     // RadioListTile(
-                  //     //     title: const Text("BroadCaster"),
-                  //     //     value: ClientRole.Broadcaster,
-                  //     //     groupValue: role,
-                  //     //     onChanged: (ClientRole? value) {
-                  //     //       setState(() {
-                  //     //         role = value;
-                  //     //       });
-                  //     //     }),
-                  //     // RadioListTile(
-                  //     //     title: const Text("Audience"),
-                  //     //     value: ClientRole.Audience,
-                  //     //     groupValue: role,
-                  //     //     onChanged: (ClientRole? value) {
-                  //     //       setState(() {
-                  //     //         role = value;
-                  //     //       });
-                  //     //     }),
-                  //     // ElevatedButton(
-                  //     //   onPressed: () {},
-                  //     //   style: ElevatedButton.styleFrom(
-                  //     //       minimumSize: const Size(double.infinity, 40)),
-                  //     //   child: const Text('Join'),
-                  //     // ),
-
-                  //   ],
-                  // ),
-                  ,
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  SolidInverseButton(
+                      onPressed: () {
+                        final provider = Provider.of<GoogleSignInProvider>(
+                            context,
+                            listen: false);
+                        provider.logout();
+                        Navigator.of(context)
+                            .popUntil((route) => route.isFirst);
+                      },
+                      label: "LOGOUT",
+                      deviceSize: deviceSize,
+                      labelTextStyle:
+                          AppTextStyles.SolidInverseButttonTextStyle,
+                      icon: Icons.exit_to_app_sharp),
                   const SizedBox(
                     height: 15,
                   ),
@@ -197,29 +186,6 @@ class _IndexPageState extends State<IndexPage> {
       ),
     );
   }
-
-  // Future<void> onJoin() async {
-  //   setState(() {
-  //     _channelController.text.isEmpty
-  //         ? _validateError = true
-  //         : _validateError = false;
-  //   });
-
-  //   if (_channelController.text.isNotEmpty) {
-  //     await _handleCameraandMic(Permission.camera);
-  //     await _handleCameraandMic(Permission.microphone);
-  // ignore: use_build_context_synchronously
-  //     await Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (context) => CallPage(
-  //             channelName: _channelController.text,
-  //             role: role,
-  //           ),
-  //         ));
-  //   }
-  // }
-
 }
 
 Widget channelNamePicker(
@@ -230,7 +196,8 @@ Widget channelNamePicker(
     String uid,
     String userName) {
   return Container(
-    height: deviceSize.height * 0.5,
+    decoration: const BoxDecoration(color: NamedColors.bgColorDark),
+    height: deviceSize.height * 0.65,
     alignment: Alignment.topCenter,
     child: SingleChildScrollView(
       child: Column(
@@ -243,7 +210,8 @@ Widget channelNamePicker(
           ),
           Text(
             'Enter your Channel Name ,',
-            style: AppTextStyles.heading.copyWith(fontSize: 18),
+            style: AppTextStyles.heading.copyWith(
+                fontSize: 18, color: NamedColors.white.withOpacity(0.8)),
           ),
           const SizedBox(
             height: 8,
@@ -251,12 +219,14 @@ Widget channelNamePicker(
           SizedBox(
             width: deviceSize.width * 0.87,
             child: TextFormField(
+              style: TextStyle(color: NamedColors.white.withOpacity(0.9)),
               controller: channelNameController,
               decoration: InputDecoration(
-                fillColor: Colors.white,
+                fillColor: NamedColors.cardColorbgColorDark,
                 filled: true,
-                prefixIcon: Icon(Icons.people_alt, color: Colors.grey[600]),
+                prefixIcon: const Icon(Icons.people_alt, color: Colors.grey),
                 hintText: 'Channel Name',
+                hintStyle: const TextStyle(color: NamedColors.white),
                 border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(
                     Radius.circular(28),
@@ -287,23 +257,24 @@ Widget channelNamePicker(
           ),
           SolidButton(
               onPressed: () async {
-                if (channelNameController.text.isNotEmpty) {}
-                String? token = await tokenService.fetchToken(
-                    1306, channelNameController.text, 1);
-                await _handleCameraandMic(Permission.camera);
-                await _handleCameraandMic(Permission.microphone);
-                final provider = Provider.of<FirebaseOperationsProvider>(
-                        context,
-                        listen: false)
-                    .addEventToFirestore(
-                        userName, channelNameController.text, token!, uid);
-                await Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => CallPage(
-                    channelName: channelNameController.text,
-                    role: ClientRole.Broadcaster,
-                    token: token,
-                  ),
-                ));
+                if (channelNameController.text.isNotEmpty) {
+                  String? token = await tokenService.fetchToken(
+                      1306, channelNameController.text, 1);
+                  await _handleCameraandMic(Permission.camera);
+                  await _handleCameraandMic(Permission.microphone);
+                  showSnackBar(context, "Setting you up to go Live...");
+                  Provider.of<FirebaseOperationsProvider>(context,
+                          listen: false)
+                      .addEventToFirestore(
+                          userName, channelNameController.text, token!, uid);
+                  await Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => CallPage(
+                      channelName: channelNameController.text,
+                      role: ClientRole.Broadcaster,
+                      token: token,
+                    ),
+                  ));
+                }
               },
               label: "Stream your Channel",
               deviceSize: deviceSize,
@@ -315,110 +286,143 @@ Widget channelNamePicker(
   );
 }
 
-double convert(String hexString) {
-  String hexStringPadded = hexString.padLeft(16, '0');
-
-  return (ByteData(8)
-        ..setInt32(0, int.parse(hexStringPadded.substring(0, 8), radix: 16))
-        ..setInt32(4, int.parse(hexStringPadded.substring(8, 16), radix: 16)))
-      .getFloat64(0);
-}
-
 Widget onGoingEventsSheet(
     BuildContext context,
     Size deviceSize,
     TextEditingController channelNameController,
     TokenService tokenService,
     String uid) {
-  // int _uid = int.parse(uid);
   return Container(
     height: deviceSize.height * 0.7,
+    decoration: const BoxDecoration(color: NamedColors.bgColorDark),
     alignment: Alignment.topCenter,
     child: SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            'OnGoing Events ,',
-            style: AppTextStyles.heading.copyWith(fontSize: 18),
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Consumer<FirebaseOperationsProvider>(
-            builder: (context, value, child) {
-              return StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('onGoingEvents')
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  if (snapshot.hasData) {
-                    final List<DocumentSnapshot> documents =
-                        snapshot.data!.docs;
-                    return SizedBox(
-                      height: deviceSize.height * 0.5,
-                      child: ListView.builder(
-                        itemCount: documents.length,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text(documents[index]['channelName']),
-                            subtitle: Text(
-                                'Hosted By : ${documents[index]['username']}'),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.arrow_circle_right),
-                              onPressed: () async {
-                                String channelName =
-                                    documents[index]['channelName'];
-                                String? audienceToken;
-                                await tokenService
-                                    .fetchToken(0, channelName, 2)
-                                    .then((value) => audienceToken = value);
-                                print("audience token --> $audienceToken");
-                                await _handleCameraandMic(Permission.camera);
-                                await _handleCameraandMic(
-                                    Permission.microphone);
-                                await Navigator.of(context)
-                                    .push(MaterialPageRoute(
-                                  builder: (context) => CallPage(
-                                    channelName: documents[index]
-                                        ['channelName'],
-                                    token: audienceToken,
-                                    role: ClientRole.Audience,
+      child: Padding(
+        padding: const EdgeInsets.all(14.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              'OnGoing Events ,',
+              style: AppTextStyles.heading
+                  .copyWith(fontSize: 18, color: NamedColors.dimWhite),
+            ),
+            const Divider(
+              thickness: 2,
+              endIndent: 200,
+              color: NamedColors.shinyPurple,
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Consumer<FirebaseOperationsProvider>(
+              builder: (context, value, child) {
+                return StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection('onGoingEvents')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    if (snapshot.hasData) {
+                      final List<DocumentSnapshot> documents =
+                          snapshot.data!.docs;
+                      return SizedBox(
+                        height: deviceSize.height * 0.5,
+                        child: ListView.builder(
+                          itemCount: documents.length,
+                          itemBuilder: (context, index) {
+                            return Card(
+                              elevation: 20,
+                              shadowColor: NamedColors.shinyPurple,
+                              shape: RoundedRectangleBorder(
+                                side: const BorderSide(
+                                    color: NamedColors.shinyPurple),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: NamedColors.cardColorbgColorDark),
+                                child: ListTile(
+                                  title: Text(
+                                    documents[index]['channelName'],
+                                    style: TextStyle(
+                                        color:
+                                            NamedColors.white.withOpacity(0.9),
+                                        fontWeight: FontWeight.bold),
                                   ),
-                                ));
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  } else {
-                    const Center(
-                      child: Text("No OnGoing Events"),
-                    );
-                  }
-                  return const Text('Some Error Ocurred');
-                },
-              );
-            },
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-        ],
+                                  subtitle: Text(
+                                    'Hosted By : ${documents[index]['username']}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      color: NamedColors.white.withOpacity(0.6),
+                                    ),
+                                  ),
+                                  trailing: ElevatedButton.icon(
+                                    label: const Text("JOIN"),
+                                    icon: const Icon(Icons.arrow_circle_right),
+                                    onPressed: () async {
+                                      String channelName =
+                                          documents[index]['channelName'];
+                                      String? audienceToken;
+                                      await tokenService
+                                          .fetchToken(0, channelName, 2)
+                                          .then(
+                                              (value) => audienceToken = value);
+                                      print(
+                                          "audience token --> $audienceToken");
+                                      await _handleCameraandMic(
+                                          Permission.camera);
+                                      await _handleCameraandMic(
+                                          Permission.microphone);
+                                      await Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) => CallPage(
+                                          channelName: documents[index]
+                                              ['channelName'],
+                                          token: audienceToken,
+                                          role: ClientRole.Audience,
+                                        ),
+                                      ));
+                                    },
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    } else {
+                      const Center(
+                        child: Text("No OnGoing Events"),
+                      );
+                    }
+                    return const Text('Some Error Ocurred');
+                  },
+                );
+              },
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+          ],
+        ),
       ),
     ),
   );
+}
+
+void showSnackBar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
 }
 
 Future<void> _handleCameraandMic(Permission permission) async {

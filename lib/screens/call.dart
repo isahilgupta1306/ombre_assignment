@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ombre_assignment/providers/firebase_operations.dart';
 import 'package:ombre_assignment/services/session_manager.dart';
+import 'package:ombre_assignment/services/token_service.dart';
 import 'package:ombre_assignment/utils/utils.dart';
 import 'package:provider/provider.dart';
 
@@ -23,10 +24,10 @@ class _CallPageState extends State<CallPage> {
   final _infoStrings = <String>[];
   bool muted = false;
   bool disableCam = false;
-  bool viewPanel = false;
+  bool viewPanel = true;
   late RtcEngine _engine;
   SessionManager prefs = SessionManager();
-  int userCount = 0;
+  int userCount = 1;
 
   @override
   void dispose() {
@@ -129,7 +130,26 @@ class _CallPageState extends State<CallPage> {
 
   Widget _toolBar() {
     if (widget.role == ClientRole.Audience) {
-      return const SizedBox();
+      return Container(
+        alignment: Alignment.bottomCenter,
+        padding: const EdgeInsets.symmetric(vertical: 48),
+        child: RawMaterialButton(
+          onPressed: (() async {
+            _engine.leaveChannel();
+
+            Navigator.pop(context);
+          }),
+          shape: const CircleBorder(),
+          fillColor: Colors.red,
+          elevation: 2,
+          padding: const EdgeInsets.all(15),
+          child: const Icon(
+            Icons.call_end,
+            color: Colors.white,
+            size: 35,
+          ),
+        ),
+      );
     }
     return Container(
       alignment: Alignment.bottomCenter,
@@ -266,10 +286,11 @@ class _CallPageState extends State<CallPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text("Agora Video Call"),
-          centerTitle: true,
+          title: Text(
+            "Number of Attendee: ${users.length} ",
+            style: TextStyle(fontSize: 18),
+          ),
           actions: [
-            Text("P count : ${userCount.toString()}"),
             IconButton(
               onPressed: () {
                 setState(() {

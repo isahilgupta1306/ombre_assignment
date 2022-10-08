@@ -9,16 +9,9 @@ class AppTextStyles {
     fontSize: 22,
     fontWeight: FontWeight.bold,
   );
-  // static const labelStyle = TextStyle(color: )
 
-  //  static final altHeading = GoogleFonts.poppins(
-  //     textStyle: const TextStyle(
-  //   color: Color.fromARGB(255, 93, 52, 168),
-  //   fontSize: 22,
-  //   fontWeight: FontWeight.w700,
-  // ));
   static const SolidInverseButttonTextStyle =
-      TextStyle(color: NamedColors.shinyPurple, fontWeight: FontWeight.bold);
+      TextStyle(color: NamedColors.white, fontWeight: FontWeight.bold);
   static final detailCardMetaDetaTextStyle = TextStyle(
       fontSize: 16,
       fontWeight: FontWeight.w600,

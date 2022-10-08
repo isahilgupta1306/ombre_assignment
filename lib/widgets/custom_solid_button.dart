@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ombre_assignment/utils/themes/named_colors.dart';
 
 class SolidButton extends StatelessWidget {
   final String label;

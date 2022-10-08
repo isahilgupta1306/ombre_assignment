@@ -24,7 +24,9 @@ class SolidInverseButton extends StatelessWidget {
       height: deviceSize.width * 0.14,
       child: ElevatedButton.icon(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white,
+            elevation: 3,
+            shadowColor: NamedColors.white,
+            backgroundColor: NamedColors.royalBlack,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(25),
             ),
@@ -32,7 +34,7 @@ class SolidInverseButton extends StatelessWidget {
           onPressed: onPressed,
           icon: Icon(
             icon,
-            color: NamedColors.shinyPurple,
+            color: NamedColors.white,
           ),
           label: Text(
             label,
