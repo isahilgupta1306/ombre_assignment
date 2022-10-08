@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "635853560635",
+    "project_id": "ombre-assignment",
+    "storage_bucket": "ombre-assignment.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:635853560635:android:2e3af363720302ea25751e",
+        "android_client_info": {
+          "package_name": "com.example.ombre_assignment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "635853560635-las8rio1qboj507k23p7da213pn9rrdg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ombre_assignment",
+            "certificate_hash": "e8f826e6715ecfd656904ca06c667410daa79579"
+          }
+        },
+        {
+          "client_id": "635853560635-mldkk5o851evsqc9fugaoiga6v7ag6bn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJkDWQ81xKKfIR_1PDfY_WYymV_ykUIiQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "635853560635-mldkk5o851evsqc9fugaoiga6v7ag6bn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
